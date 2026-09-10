@@ -1,5 +1,6 @@
 import pandas as pd
 from affichage import affichage_voyage, afficher_mst, afficher_multigraphe
+from complexity import evaluer_complexite
 from distances import matrice_distances
 from prim import prim_arbre_couvrant
 from tsp_christofides import (
@@ -31,6 +32,7 @@ def main(df_positions):
 if __name__ == "__main__":
     df_positions = pd.read_csv('../data/villes_france_lat_long.csv')
 
+    # Exécution standard
     parcours_christofides, distance_totale, routes_mst, distance_mst, paires = main(df_positions)
 
     # Graphique 1 : Prim (Vert)
@@ -44,3 +46,6 @@ if __name__ == "__main__":
     # Graphique 3 : Le circuit final (Rouge)
     affichage_voyage(df_positions, parcours_christofides)
     print(f"Distance totale du parcours (Christofides) : {distance_totale} km")
+
+    # Lancement de l'évaluation de complexité
+    evaluer_complexite(df_positions, main)
