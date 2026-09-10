@@ -1,32 +1,11 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
-# # Création du dataframe
-# df_positions = pd.read_csv('data/villes_france_lat_long.csv')
-# print(df_positions)
-
-# # Affichage des points sur une carte
-# plt.figure(figsize=(8, 8))
-
-# # Affiche uniquement les points (visibles)
-# plt.scatter(df_positions['Longitude'], df_positions['Latitude'], color='blue', s=30)
-
-# # Ratio 1.45 pour préserver les proportions de la France
-# plt.gca().set_aspect(1.45)
-# plt.axis('off')
-
-# plt.show()
-
 def affichage_voyage(df_positions, parcours=None):
-    """Affichage de la carte des villes.
-    Si un parcours est fourni, trace aussi le parcours sur la carte."""
-
     plt.figure(figsize=(10, 10))
-
     plt.scatter(df_positions['Longitude'], df_positions['Latitude'], color='blue', s=30, zorder=2)
 
     if parcours is not None:
-
         longitudes_trajets = []
         latitudes_trajets = []
 
@@ -36,20 +15,40 @@ def affichage_voyage(df_positions, parcours=None):
 
         plt.plot(longitudes_trajets, latitudes_trajets, color='red', linewidth=2, zorder=1)
 
-        plt.gca().set_aspect(1.45)
-        plt.axis('off')
+    plt.gca().set_aspect(1.45)
+    plt.axis('off')
+    plt.show()
 
-        plt.show()
+def afficher_multigraphe(df_positions, routes_mst, paires):
+    plt.figure(figsize=(10, 10))
+    plt.scatter(df_positions['Longitude'], df_positions['Latitude'], color='blue', s=30, zorder=3)
 
-if __name__ == "__main__":
+    if routes_mst is not None:
+        for depart, arrivee, _ in routes_mst:
+            x_coords = [df_positions.iloc[depart]['Longitude'], df_positions.iloc[arrivee]['Longitude']]
+            y_coords = [df_positions.iloc[depart]['Latitude'], df_positions.iloc[arrivee]['Latitude']]
+            plt.plot(x_coords, y_coords, color='green', linewidth=1.5, zorder=1)
 
-    df_positions = pd.read_csv('../data/villes_france_lat_long.csv')
+    if paires is not None:
+        for u, v in paires:
+            x_coords = [df_positions.iloc[u]['Longitude'], df_positions.iloc[v]['Longitude']]
+            y_coords = [df_positions.iloc[u]['Latitude'], df_positions.iloc[v]['Latitude']]
+            plt.plot(x_coords, y_coords, color='orange', linestyle='--', linewidth=2.5, zorder=2)
 
+    plt.gca().set_aspect(1.45)
+    plt.axis('off')
+    plt.show()
 
-    parcours_exemple = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+def afficher_mst(df_positions, routes=None):
+    plt.figure(figsize=(10, 10))
+    plt.scatter(df_positions['Longitude'], df_positions['Latitude'], color='blue', s=30, zorder=2)
 
-    affichage_voyage(df_positions, parcours_exemple)
+    if routes is not None:
+        for depart, arrivee, _ in routes:
+            x_coords = [df_positions.iloc[depart]['Longitude'], df_positions.iloc[arrivee]['Longitude']]
+            y_coords = [df_positions.iloc[depart]['Latitude'], df_positions.iloc[arrivee]['Latitude']]
+            plt.plot(x_coords, y_coords, color='green', linewidth=1.5, zorder=1)
 
-
-
-
+    plt.gca().set_aspect(1.45)
+    plt.axis('off')
+    plt.show()
