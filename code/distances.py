@@ -21,23 +21,22 @@ def haversine(lat1, lon1, lat2, lon2):
 
 def matrice_distances(df_positions):
     """ Prend le DataFrame des villes en entrée et retourne une matrice 
-    contenant les distances entre chaque paire de villes (poids des arrêtes du MST)
+    contenant les distances entre chaque paire de villes (poids des arêtes du MST)
     """
-
     nombre_villes = len(df_positions)
-
     matrice_distances = np.zeros((nombre_villes, nombre_villes))
 
-    # Boucle de calcul des distances
     for i in range(nombre_villes):
-        for j in range(nombre_villes):
-            if i != j:
-                lat1, lon1 =df_positions.iloc[i]['Latitude'], df_positions.iloc[i]['Longitude']
-                lat2, lon2 = df_positions.iloc[j]['Latitude'], df_positions.iloc[j]['Longitude']
-                matrice_distances[i][j] = haversine(lat1, lon1, lat2, lon2)
+        for j in range(i + 1, nombre_villes):
+            lat1, lon1 = df_positions.iloc[i]['Latitude'], df_positions.iloc[i]['Longitude']
+            lat2, lon2 = df_positions.iloc[j]['Latitude'], df_positions.iloc[j]['Longitude']
+            
+            d = haversine(lat1, lon1, lat2, lon2)
+            
+            matrice_distances[i][j] = d
+            matrice_distances[j][i] = d
+
     return matrice_distances
-
-
 if __name__ == "__main__":
 
     df_positions = pd.read_csv('../data/villes_france_lat_long.csv')
