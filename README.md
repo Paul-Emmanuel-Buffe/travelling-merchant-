@@ -87,7 +87,7 @@ python src/main.py
 
 ---
 
-# 📂 Structure du projet
+# Structure du projet
 
 ```text
 travelling-merchant/
