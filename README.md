@@ -44,7 +44,7 @@ Les objectifs du projet sont les suivants :
 
 ---
 
-# 🛠️ Installation
+#  Installation
 
 ## 1. Cloner le repository
 
